@@ -10,11 +10,16 @@ public class Driver {
         int GetWindowTextA(PointerType hWnd, byte[] lpString, int nMaxCount);
     }
 
-    public static void main(String[] args) {
+    public String getTitle() {
         byte[] windowText = new byte[512];
 
         PointerType hwnd = User32.INSTANCE.GetForegroundWindow();
         User32.INSTANCE.GetWindowTextA(hwnd, windowText, 512);
-        System.out.println(Native.toString(windowText));
+        return Native.toString(windowText);
+    }
+
+    public static void main(String[] args) {
+        Driver sys = new Driver();
+        System.out.println(sys.getTitle());
     }
 }
