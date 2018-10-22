@@ -12,11 +12,13 @@ public class Timer {
         watch.stop();
     }
 
-    public void getStart() {
-        watch.getStartTime();
+    public double getStart() {
+        return watch.getStartTime();
     }
 
     public double totalWatchTime() {
         return watch.getTime();
     }
+
+
 }
