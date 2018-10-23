@@ -1,24 +1,67 @@
-import org.apache.commons.lang.time.StopWatch;
+import Throwables.TimerAlreadyStartedException;
+import Throwables.TimerIncompleteException;
+import Throwables.TimerNotStartedException;
 
-public class Timer {
+class Timer {
 
-    private StopWatch watch = new StopWatch();
+    private double startTime;
+    private double endTime;
+    private double timeRun;
+    private boolean isStarted;
 
-    public void startWatch() {
-        watch.start();
+
+    Timer() {
+        System.out.println("NEW OBJECT CREATED");
+        startTime = Double.MIN_VALUE;
+        endTime = Double.MIN_VALUE;
+        timeRun = Double.MIN_VALUE;
+        isStarted = false;
     }
 
-    public void stopWatch() {
-        watch.stop();
+    void setStartTime() throws TimerAlreadyStartedException {
+        if (startTime == Double.MIN_VALUE) {
+            this.startTime = System.currentTimeMillis();
+            this.isStarted = true;
+        }else {
+            throw new TimerAlreadyStartedException("There is an timer already running");
+        }
     }
 
-    public double getStart() {
-        return watch.getStartTime();
+    double getStartTime() {
+        return this.startTime;
     }
 
-    public double totalWatchTime() {
-        return watch.getTime();
+    void setEndTime() throws TimerNotStartedException {
+        if (this.isStarted) {
+            this.endTime = System.currentTimeMillis();
+            this.isStarted = false;
+            this.timeRun = this.endTime - this.startTime;
+        }else {
+            throw new TimerNotStartedException("There is no timer currently started");
+        }
     }
 
+    double getEndTime() {
+        return this.endTime;
+    }
 
+    public double getCurrentTimeRun() throws TimerNotStartedException {
+        if (this.isStarted) {
+            return System.currentTimeMillis() - this.startTime;
+        }else {
+            throw new TimerNotStartedException("There is no timer currently started");
+        }
+    }
+
+    public boolean isStarted() {
+        return this.isStarted;
+    }
+
+    double getTimeRun() throws TimerIncompleteException {
+        if (timeRun > Double.MIN_VALUE) {
+            return this.timeRun;
+        }else{
+            throw new TimerIncompleteException("Timer has not been stopped yet");
+        }
+    }
 }

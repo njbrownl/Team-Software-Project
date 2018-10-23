@@ -1,3 +1,7 @@
+import Throwables.TimerAlreadyStartedException;
+import Throwables.TimerIncompleteException;
+import Throwables.TimerNotStartedException;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -6,11 +10,11 @@ import java.awt.event.ActionListener;
 
 public class ApplicationGUI implements ActionListener {
 
-    JFrame window = new JFrame("Screen Time Detector");
-    JPanel panelMain = new JPanel();
+    private JFrame window = new JFrame("Screen Time Detector");
+    private JPanel panelMain = new JPanel();
 
-    JButton startButton = new JButton("Start Tracking");
-    JButton stopButton = new JButton("Stop Tracking");
+    private JButton startButton = new JButton("Start Tracking");
+    private JButton stopButton = new JButton("Stop Tracking");
 
     private void init() {
 
@@ -48,14 +52,25 @@ public class ApplicationGUI implements ActionListener {
         obj.init();
     }
 
+    private Tracking track = new Tracking();
+
     public void actionPerformed(ActionEvent e) {
-        Tracking track = new Tracking();
         if(e.getSource() == startButton){
-            track.totalScreenTimeStart();
+            try {
+                track.totalScreenTimeStart();
+            } catch (TimerAlreadyStartedException e1) {
+                e1.printStackTrace();
+            }
 
         }
         if(e.getSource() == stopButton){
-            track.totalScreenTimeStop();
+            try {
+                track.totalScreenTimeStop();
+            } catch (TimerNotStartedException e1) {
+                e1.printStackTrace();
+            } catch (TimerIncompleteException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }
