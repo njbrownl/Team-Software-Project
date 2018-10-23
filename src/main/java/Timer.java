@@ -11,7 +11,7 @@ class Timer {
 
 
     Timer() {
-        System.out.println("NEW OBJECT CREATED");
+        //System.out.println("NEW OBJECT CREATED");
         startTime = Double.MIN_VALUE;
         endTime = Double.MIN_VALUE;
         timeRun = Double.MIN_VALUE;
@@ -45,7 +45,7 @@ class Timer {
         return this.endTime;
     }
 
-    public double getCurrentTimeRun() throws TimerNotStartedException {
+    double getCurrentTimeRun() throws TimerNotStartedException {
         if (this.isStarted) {
             return System.currentTimeMillis() - this.startTime;
         }else {
@@ -53,7 +53,7 @@ class Timer {
         }
     }
 
-    public boolean isStarted() {
+    boolean isStarted() {
         return this.isStarted;
     }
 
