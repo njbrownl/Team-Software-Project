@@ -55,7 +55,7 @@ public class ApplicationGUI implements ActionListener {
     private Tracking track = new Tracking();
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == startButton){
+        if(e.getSource() == startButton) {
             try {
                 track.totalScreenTimeStart();
                 track.detectScreenChange();
