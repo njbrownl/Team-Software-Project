@@ -10,7 +10,7 @@ public class Driver {
         int GetWindowTextA(PointerType hWnd, byte[] lpString, int nMaxCount);
     }
 
-    public String getTitle() {
+    String getTitle() {
         byte[] windowText = new byte[512];
 
         PointerType hwnd = User32.INSTANCE.GetForegroundWindow();

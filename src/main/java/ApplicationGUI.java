@@ -58,17 +58,20 @@ public class ApplicationGUI implements ActionListener {
         if(e.getSource() == startButton){
             try {
                 track.totalScreenTimeStart();
+                track.detectScreenChange();
             } catch (TimerAlreadyStartedException e1) {
                 e1.printStackTrace();
+            } catch (TimerNotStartedException e1) {
+                e1.printStackTrace();
+            } catch (TimerIncompleteException e1) {
+                e1.printStackTrace();
             }
-
         }
         if(e.getSource() == stopButton){
             try {
                 track.totalScreenTimeStop();
+                track.stopDetection();
             } catch (TimerNotStartedException e1) {
-                e1.printStackTrace();
-            } catch (TimerIncompleteException e1) {
                 e1.printStackTrace();
             }
         }
