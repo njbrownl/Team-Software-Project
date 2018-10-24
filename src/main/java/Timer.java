@@ -12,7 +12,6 @@ class Timer {
 
 
     Timer() {
-        //System.out.println("NEW OBJECT CREATED");
         startTime = Double.MIN_VALUE;
         endTime = Double.MIN_VALUE;
         timeRun = Double.MIN_VALUE;
@@ -24,7 +23,7 @@ class Timer {
             this.startTime = System.currentTimeMillis();
             this.isStarted = true;
         }else {
-            throw new TimerAlreadyStartedException("There is an timer already running");
+            throw new TimerAlreadyStartedException("There is a timer already running");
         }
     }
 

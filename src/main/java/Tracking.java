@@ -13,11 +13,13 @@ class Tracking {
 
     private ArrayList<TimePair> pairs = new ArrayList<TimePair>();
 
-    void stopDetection() {
+    void stopDetection() throws TimerIncompleteException {
         detection = false;
+        pairs.add(new TimePair(title, time.getTimeRun()));
+        resetTimer();
     }
 
-    public boolean getDetection() {
+    boolean getDetection() {
         return detection;
     }
 
@@ -28,18 +30,14 @@ class Tracking {
                 totalScreenTimeStop();
                 pairs.add(new TimePair(title, time.getTimeRun()));
                 title = screen.getTitle();
-               //System.out.println(pairs.size());
+                System.out.println(pairs.size());
                 resetTimer();
                 totalScreenTimeStart();
-                if (pairs.size() == 5) {
-                    stopDetection();
-                }
             }
             if (title.equals("")) {
                 title = screen.getTitle();
             }
         }
-        printList();
     }
 
     private void resetTimer() {
@@ -56,7 +54,7 @@ class Tracking {
     }
 
     // public method used for easier testing purposes
-    public String runPrintList(int totalTime) {
+    String runPrintList(int totalTime) {
         for (TimePair pair : pairs) {
             System.out.println(pair.toString());
             totalTime += pair.getTime();
@@ -64,7 +62,7 @@ class Tracking {
         return "Listed Total Time: " + (totalTime / 1000) + " Seconds";
     }
 
-    public double totalTime(){
+    double totalTime(){
         double totalTime = 0;
         for (TimePair pair : pairs) {
             totalTime += pair.getTime();
@@ -72,7 +70,7 @@ class Tracking {
         return totalTime/1000;
     }
 
-    public ArrayList getPairs(){
+    ArrayList<TimePair> getPairs(){
         return pairs;
     }
 

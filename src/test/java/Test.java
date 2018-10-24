@@ -62,7 +62,7 @@ public class Test {
     public void timePairObjTest() {
         TimePair tp = new TimePair();
         String name = "Test";
-        Double time = 10.00;
+        double time = 10.00;
         tp.setName(name);
         tp.setTime(time);
         assertEquals(tp.getName(), "Test");
@@ -73,18 +73,20 @@ public class Test {
     public void timePairToStringTest() {
         TimePair tp = new TimePair();
         String name = "Test";
-        Double time = 1000.00;
+        double time = 1000.00;
         tp.setName(name);
         tp.setTime(time);
         assertEquals(tp.toString(), "Test " + 1.0 + " Seconds");
     }
 
     @org.junit.Test
-    public void trackingStopDetectionTest() {
+    public void trackingStopDetectionTest() throws TimerIncompleteException, TimerAlreadyStartedException, TimerNotStartedException {
         Tracking track = new Tracking();
+        track.totalScreenTimeStart();
+        track.totalScreenTimeStop();
         track.stopDetection();
 
-        assertEquals(track.getDetection(), false);
+        assertFalse(track.getDetection());
     }
 
     @org.junit.Test
