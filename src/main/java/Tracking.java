@@ -23,13 +23,12 @@ class Tracking {
 
     void detectScreenChange() throws TimerNotStartedException, TimerIncompleteException, TimerAlreadyStartedException {
         title = screen.getTitle();
-        double startTime = System.currentTimeMillis();
         while (detection) {
             if ((!title.equals(screen.getTitle())) && (!title.equals(""))) {
                 totalScreenTimeStop();
                 pairs.add(new TimePair(title, time.getTimeRun()));
                 title = screen.getTitle();
-                System.out.println(pairs.size());
+               //System.out.println(pairs.size());
                 resetTimer();
                 totalScreenTimeStart();
                 if (pairs.size() == 5) {
@@ -40,9 +39,7 @@ class Tracking {
                 title = screen.getTitle();
             }
         }
-        double endTime = System.currentTimeMillis();
         printList();
-        System.out.println("Actual Total Time: " + ((endTime - startTime) / 1000) + " Seconds");
     }
 
     private void resetTimer() {
@@ -50,7 +47,7 @@ class Tracking {
     }
 
     private void printList() {
-        int totalTime = 0;
+        double totalTime = 0;
         for (TimePair pair : pairs) {
             System.out.println(pair.toString());
             totalTime += pair.getTime();
@@ -65,6 +62,18 @@ class Tracking {
             totalTime += pair.getTime();
         }
         return "Listed Total Time: " + (totalTime / 1000) + " Seconds";
+    }
+
+    public double totalTime(){
+        double totalTime = 0;
+        for (TimePair pair : pairs) {
+            totalTime += pair.getTime();
+        }
+        return totalTime/1000;
+    }
+
+    public ArrayList getPairs(){
+        return pairs;
     }
 
     void totalScreenTimeStart() throws TimerAlreadyStartedException {

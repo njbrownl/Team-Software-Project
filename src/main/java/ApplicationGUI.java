@@ -7,6 +7,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ApplicationGUI implements ActionListener {
 
@@ -20,8 +21,6 @@ public class ApplicationGUI implements ActionListener {
 
         JLabel title = new JLabel("<html><h1>Screen Time Detector</h1></html>");
 
-       // JLabel timeSpent = new JLabel(String.valueOf());
-
         JPanel panelButtons = new JPanel();
 
 
@@ -29,9 +28,7 @@ public class ApplicationGUI implements ActionListener {
         panelMain.setLayout(new BorderLayout());
         window.add(panelMain);
 
-        window.add(title, BorderLayout.PAGE_START);
-
-      //  window.add(timeSpent, BorderLayout.CENTER);
+        window.add(title, BorderLayout.NORTH);
 
         panelButtons.add(startButton);
         panelButtons.add(stopButton);
@@ -44,12 +41,6 @@ public class ApplicationGUI implements ActionListener {
 
         window.setVisible(true);
 
-    }
-
-    public static void main(String[] args){
-        ApplicationGUI obj = new ApplicationGUI();
-
-        obj.init();
     }
 
     private Tracking track = new Tracking();
@@ -71,13 +62,24 @@ public class ApplicationGUI implements ActionListener {
             try {
                 track.totalScreenTimeStop();
                 track.stopDetection();
+
+                ArrayList<TimePair> tempList = track.getPairs();
+
+
+                    JLabel j = new JLabel("Total Time: " + String.valueOf(track.totalTime()) + " seconds");
+                    window.add(j, BorderLayout.WEST);
+                    window.repaint();
+                    window.setVisible(true);
+
             } catch (TimerNotStartedException e1) {
                 e1.printStackTrace();
             }
         }
     }
+
+    public static void main(String[] args){
+        ApplicationGUI obj = new ApplicationGUI();
+
+        obj.init();
+    }
 }
-
-
-
-
