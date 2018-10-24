@@ -2,6 +2,7 @@ import Throwables.TimerAlreadyStartedException;
 import Throwables.TimerIncompleteException;
 import Throwables.TimerNotStartedException;
 
+
 class Timer {
 
     private double startTime;

@@ -17,6 +17,10 @@ class Tracking {
         detection = false;
     }
 
+    public boolean getDetection() {
+        return detection;
+    }
+
     void detectScreenChange() throws TimerNotStartedException, TimerIncompleteException, TimerAlreadyStartedException {
         title = screen.getTitle();
         double startTime = System.currentTimeMillis();
@@ -52,6 +56,15 @@ class Tracking {
             totalTime += pair.getTime();
         }
         System.out.println("Listed Total Time: " + (totalTime / 1000) + " Seconds");
+    }
+
+    // public method used for easier testing purposes
+    public String runPrintList(int totalTime) {
+        for (TimePair pair : pairs) {
+            System.out.println(pair.toString());
+            totalTime += pair.getTime();
+        }
+        return "Listed Total Time: " + (totalTime / 1000) + " Seconds";
     }
 
     void totalScreenTimeStart() throws TimerAlreadyStartedException {

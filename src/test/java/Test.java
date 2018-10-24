@@ -1,6 +1,7 @@
 import Throwables.TimerAlreadyStartedException;
 import Throwables.TimerIncompleteException;
 import Throwables.TimerNotStartedException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -55,5 +56,45 @@ public class Test {
         Thread.sleep(100);
         double testTime = System.currentTimeMillis() - startTime;
         assertEquals(time.getCurrentTimeRun(), testTime, 10);
+    }
+
+    @org.junit.Test
+    public void timePairObjTest() {
+        TimePair tp = new TimePair();
+        String name = "Test";
+        Double time = 10.00;
+        tp.setName(name);
+        tp.setTime(time);
+        assertEquals(tp.getName(), "Test");
+        assertEquals(tp.getTime(), 10.00);
+    }
+
+    @org.junit.Test
+    public void timePairToStringTest() {
+        TimePair tp = new TimePair();
+        String name = "Test";
+        Double time = 1000.00;
+        tp.setName(name);
+        tp.setTime(time);
+        assertEquals(tp.toString(), "Test " + 1.0 + " Seconds");
+    }
+
+    @org.junit.Test
+    public void trackingStopDetectionTest() {
+        Tracking track = new Tracking();
+        track.stopDetection();
+
+        assertEquals(track.getDetection(), false);
+    }
+
+    @org.junit.Test
+    public void trackingPrintListTest() {
+        Tracking track = new Tracking();
+        ArrayList<TimePair> pairs = new ArrayList<TimePair>();
+        pairs.add(new TimePair("Test", 1000.00));
+
+        assertEquals(track.runPrintList(1000), "Listed Total Time: " + 1 + " Seconds");
+
+
     }
 }
