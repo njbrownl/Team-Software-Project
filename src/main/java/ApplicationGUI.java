@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ApplicationGUI implements ActionListener {
 
-    private JFrame window = new JFrame("Screen Time Detector");
+    JFrame window = new JFrame("Screen Time Detector");
     private JPanel panelMain = new JPanel();
 
     private JButton startButton = new JButton("Start Tracking");
@@ -22,7 +22,7 @@ public class ApplicationGUI implements ActionListener {
     private JLabel off = new JLabel("<html><h1><font color='red'>OFF<h1></font></html>");
     private JPanel topBar = new JPanel();
 
-    private void init() {
+    void init() {
 
         JLabel title = new JLabel("<html><h1>Screen Time Detector - </h1></html>");
         off = new JLabel();

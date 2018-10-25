@@ -7,15 +7,15 @@ import java.util.ArrayList;
 class Tracking {
 
     private Driver screen = new Driver();
-    private String title;
-    private Timer time = new Timer();
+    String title;
+    Timer time = new Timer();
     private boolean detection = true;
 
-    private ArrayList<TimePair> pairs = new ArrayList<TimePair>();
+    ArrayList<TimePair> pairs = new ArrayList<TimePair>();
 
     void stopDetection() throws TimerIncompleteException {
         detection = false;
-        pairs.add(new TimePair(title, time.getTimeRun()));
+        addPair();
         resetTimer();
     }
 
@@ -23,14 +23,27 @@ class Tracking {
         return detection;
     }
 
+    void addPair() throws TimerIncompleteException {
+        boolean findMatch = false;
+        TimePair tempPair = new TimePair(title, time.getTimeRun());
+        for (TimePair pair : pairs) {
+            if (tempPair.getName().equals(pair.getName())) {
+                pair.setTime(tempPair.getTime() + pair.getTime());
+                findMatch = true;
+            }
+        }
+        if (!findMatch) {
+            pairs.add(tempPair);
+        }
+    }
+
     void detectScreenChange() throws TimerNotStartedException, TimerIncompleteException, TimerAlreadyStartedException {
         title = screen.getTitle();
         while (detection) {
             if ((!title.equals(screen.getTitle())) && (!title.equals(""))) {
                 totalScreenTimeStop();
-                pairs.add(new TimePair(title, time.getTimeRun()));
+                addPair();
                 title = screen.getTitle();
-                System.out.println(pairs.size());
                 resetTimer();
                 totalScreenTimeStart();
             }
@@ -40,17 +53,8 @@ class Tracking {
         }
     }
 
-    private void resetTimer() {
+    void resetTimer() {
         time = new Timer();
-    }
-
-    private void printList() {
-        double totalTime = 0;
-        for (TimePair pair : pairs) {
-            System.out.println(pair.toString());
-            totalTime += pair.getTime();
-        }
-        System.out.println("Listed Total Time: " + (totalTime / 1000) + " Seconds");
     }
 
     // public method used for easier testing purposes

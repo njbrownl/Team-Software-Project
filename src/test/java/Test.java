@@ -79,7 +79,7 @@ public class Test {
         assertEquals(tp.toString(), "Test " + 1.0 + " Seconds");
     }
 
-    @org.junit.Test
+/*    @org.junit.Test
     public void trackingStopDetectionTest() throws TimerIncompleteException, TimerAlreadyStartedException, TimerNotStartedException {
         Tracking track = new Tracking();
         track.totalScreenTimeStart();
@@ -87,7 +87,7 @@ public class Test {
         track.stopDetection();
 
         assertFalse(track.getDetection());
-    }
+    }*/
 
     @org.junit.Test
     public void trackingPrintListTest() {
@@ -96,7 +96,80 @@ public class Test {
         pairs.add(new TimePair("Test", 1000.00));
 
         assertEquals(track.runPrintList(1000), "Listed Total Time: " + 1 + " Seconds");
+    }
 
+    @org.junit.Test
+    public void trackingTotalTimeTest() throws TimerAlreadyStartedException, InterruptedException, TimerNotStartedException, TimerIncompleteException {
+        Tracking track = new Tracking();
+        String[] arr = {"a", "b", "c", "d", "e"};
+        for (String s : arr) {
+            track.title = s;
+            track.time.setStartTime();
+            Thread.sleep(5);
+            track.time.setEndTime();
+            track.addPair();
+            track.resetTimer();
+        }
+        for (TimePair time : track.pairs) {
+            time.setTime(200);
+        }
+        assertEquals(1, track.totalTime());
+    }
 
+    @org.junit.Test
+    public void addPairTestFail() throws TimerAlreadyStartedException, TimerNotStartedException, TimerIncompleteException, InterruptedException {
+        Tracking track = new Tracking();
+        String[] arr = {"Test", "abc"};
+        for (String s : arr) {
+            track.title = s;
+            track.time.setStartTime();
+            Thread.sleep(5);
+            track.time.setEndTime();
+            track.addPair();
+            track.resetTimer();
+        }
+        assertEquals(track.pairs.size(), 2);
+    }
+
+    @org.junit.Test
+    public void addPairTestTrue() throws TimerAlreadyStartedException, TimerNotStartedException, TimerIncompleteException, InterruptedException {
+        Tracking track = new Tracking();
+        String[] arr = {"Test", "abc", "Test"};
+        for (String s : arr) {
+            track.title = s;
+            track.time.setStartTime();
+            Thread.sleep(5);
+            track.time.setEndTime();
+            track.addPair();
+            track.resetTimer();
+        }
+        assertEquals(track.pairs.size(), 2);
+    }
+
+    @org.junit.Test
+    public void initTest() {
+        ApplicationGUI app = new ApplicationGUI();
+        app.init();
+        assertTrue(app.window.isVisible());
+    }
+
+    @org.junit.Test (expected = TimerAlreadyStartedException.class)
+    public void twoTimerTest() throws TimerAlreadyStartedException {
+        Timer time = new Timer();
+        time.setStartTime();
+        time.setStartTime();
+    }
+
+    @org.junit.Test (expected = TimerIncompleteException.class)
+    public void noTimeTest() throws TimerAlreadyStartedException, TimerIncompleteException {
+        Timer time = new Timer();
+        time.setStartTime();
+        time.getTimeRun();
+    }
+
+    @org.junit.Test (expected = TimerNotStartedException.class)
+    public void stopTimerTest() throws TimerNotStartedException {
+        Timer time = new Timer();
+        time.setEndTime();
     }
 }
