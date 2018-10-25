@@ -172,4 +172,14 @@ public class Test {
         Timer time = new Timer();
         time.setEndTime();
     }
+
+    @org.junit.Test
+    public void startStopButtonTest() throws InterruptedException {
+        ApplicationGUI test = new ApplicationGUI();
+        test.init();
+        test.startButton.doClick();
+        Thread.sleep(5000);
+        test.stopButton.doClick();
+        assertEquals(5.0, test.totalTime, .5);
+    }
 }

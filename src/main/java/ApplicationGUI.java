@@ -13,8 +13,8 @@ public class ApplicationGUI implements ActionListener {
     JFrame window = new JFrame("Screen Time Detector");
     private JPanel panelMain = new JPanel();
 
-    private JButton startButton = new JButton("Start Tracking");
-    private JButton stopButton = new JButton("Stop Tracking");
+    JButton startButton = new JButton("Start Tracking");
+    JButton stopButton = new JButton("Stop Tracking");
 
     private JPanel panel = new JPanel();
 
@@ -57,6 +57,7 @@ public class ApplicationGUI implements ActionListener {
     }
 
     private Tracking track = new Tracking();
+    double totalTime;
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
@@ -91,7 +92,9 @@ public class ApplicationGUI implements ActionListener {
                     panel.add(new JLabel(t.toString()));
                 }
 
-                JLabel j = new JLabel("Total Time: " + String.valueOf(track.totalTime()) + " seconds");
+                totalTime = track.totalTime();
+
+                JLabel j = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
                 window.add(j, BorderLayout.WEST);
                 topBar.remove(on);
                 topBar.add(off);
