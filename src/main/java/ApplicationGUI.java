@@ -78,6 +78,7 @@ public class ApplicationGUI implements ActionListener {
             topBar.remove(off);
             on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
             topBar.add(on);
+            panel.removeAll();
             window.repaint();
             window.setVisible(true);
         }
