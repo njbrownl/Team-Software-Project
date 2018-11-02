@@ -87,7 +87,10 @@ public class ApplicationGUI implements ActionListener {
                 track.totalScreenTimeStop();
                 track.stopDetection();
 
+                Database db = new Database();
                 ArrayList<TimePair> tempList = track.getPairs();
+
+                db.insertSessionData(tempList);
 
                 for (TimePair t: tempList) {
                     panel.add(new JLabel(t.toString()));
