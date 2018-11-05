@@ -17,7 +17,7 @@ public class Database {
                 Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(data);
                 pstmt.setString(1, title);
-                pstmt.setDouble(2, time);
+                pstmt.setDouble(2, time/1000);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());

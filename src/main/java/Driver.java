@@ -14,7 +14,7 @@ public class Driver {
 
     public interface User32 extends StdCallLibrary {
         User32 INSTANCE = Native.load("user32", User32.class);
-
+        HWND GetForegroundWindow();
         boolean EnumWindows(WinUser.WNDENUMPROC wndenumproc, int listParam);
         boolean IsWindowVisible(PointerType hWnd);
         int GetWindowInfo(PointerType hWnd, WINDOWINFO lpwndpl);
@@ -25,8 +25,8 @@ public class Driver {
     String getTitle() {
         byte[] windowText = new byte[512];
 
-        //PointerType hwnd = User32.INSTANCE.GetForegroundWindow();
-        //User32.INSTANCE.GetWindowTextA(hwnd, windowText, 512);
+        PointerType hwnd = User32.INSTANCE.GetForegroundWindow();
+        User32.INSTANCE.GetWindowTextA(hwnd, windowText, 512);
         return Native.toString(windowText);
     }
 
@@ -75,10 +75,10 @@ public class Driver {
     }
 
     public static void main(String[] args) {
-        Driver sys = new Driver();
-        sys.newGetTitle();
-        for (WindowType windowType : sys.windowList) {
-            System.out.println(windowType.getTitle());
-        }
+//        Driver sys = new Driver();
+//        sys.newGetTitle();
+//        for (WindowType windowType : sys.windowList) {
+//            System.out.println(windowType.getTitle());
+//        }
     }
 }
