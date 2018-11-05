@@ -27,7 +27,7 @@ public class Database {
 
     private Connection connect(){
         Connection conn = null;
-        String url = "jdbc:sqlite:C:/Users/zmjoh/Desktop/Code/Team Software Project/SQlite/sqlite-tools-win32-x86-3250200/sqlite/tracking.db";
+        String url = "jdbc:sqlite:src/main/sqlite/tracking.db";
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
