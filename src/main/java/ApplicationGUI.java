@@ -64,6 +64,8 @@ public class ApplicationGUI implements ActionListener {
             new Thread() {
                 public void run() {
                     try {
+                        Database db = new Database();
+                        db.clearSessionData();
                         track.totalScreenTimeStart();
                         track.detectScreenChange();
                     } catch (TimerAlreadyStartedException e1) {
@@ -91,6 +93,7 @@ public class ApplicationGUI implements ActionListener {
                 ArrayList<TimePair> tempList = track.getPairs();
 
                 db.insertSessionData(tempList);
+                db.insertTotalData(tempList);
 
                 for (TimePair t: tempList) {
                     panel.add(new JLabel(t.toString()));

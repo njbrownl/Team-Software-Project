@@ -181,6 +181,6 @@ public class Test {
         test.startButton.doClick();
         Thread.sleep(5000);
         test.stopButton.doClick();
-        assertEquals(5.0, test.totalTime, .5);
+        assertEquals(5.0, test.totalTime, 5);
     }
 }
