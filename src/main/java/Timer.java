@@ -64,4 +64,8 @@ class Timer {
             throw new TimerIncompleteException("Timer has not been stopped yet");
         }
     }
+
+    void setTimeRun(double d) {
+        this.timeRun = timeRun + d;
+    }
 }

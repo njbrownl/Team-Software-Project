@@ -1,20 +1,22 @@
-import Throwables.TimerAlreadyStartedException;
-import Throwables.TimerIncompleteException;
-import Throwables.TimerNotStartedException;
+import Throwables.*;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class ApplicationGUI implements ActionListener {
 
-    JFrame window = new JFrame("Screen Time Detector");
+    private JFrame window = new JFrame("Screen Time Detector");
     private JPanel panelMain = new JPanel();
 
     JButton startButton = new JButton("Start Tracking");
     JButton stopButton = new JButton("Stop Tracking");
+    private JButton debugButton = new JButton("Debug");
 
     private JPanel panel = new JPanel();
 
@@ -40,6 +42,7 @@ public class ApplicationGUI implements ActionListener {
 
         panelButtons.add(startButton);
         panelButtons.add(stopButton);
+        panelButtons.add(debugButton);
 
         //Scrollbar window when stopped
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -51,13 +54,16 @@ public class ApplicationGUI implements ActionListener {
 
         startButton.addActionListener(this);
         stopButton.addActionListener(this);
+        debugButton.addActionListener(this);
 
         window.setVisible(true);
 
     }
 
-    private Tracking track = new Tracking();
-    double totalTime;
+    private MultiTracking newTrack = new MultiTracking();
+    private JLabel totalTimeLabel;
+
+    ArrayList<TimePair> tempList;
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
@@ -66,8 +72,8 @@ public class ApplicationGUI implements ActionListener {
                     try {
                         Database db = new Database();
                         db.clearSessionData();
-                        track.totalScreenTimeStart();
-                        track.detectScreenChange();
+                        newTrack = new MultiTracking();
+                        newTrack.startDetection();
                     } catch (TimerAlreadyStartedException e1) {
                         e1.printStackTrace();
                     } catch (TimerNotStartedException e1) {
@@ -80,17 +86,19 @@ public class ApplicationGUI implements ActionListener {
             topBar.remove(off);
             on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
             topBar.add(on);
+            if (totalTimeLabel != null && !totalTimeLabel.getText().equals("Total Time: ")) {
+                totalTimeLabel.setText("Total Time: ");
+            }
 
             window.repaint();
             window.setVisible(true);
         }
         if(e.getSource() == stopButton){
             try {
-                track.totalScreenTimeStop();
-                track.stopDetection();
+                newTrack.stopDetection();
 
                 Database db = new Database();
-                ArrayList<TimePair> tempList = track.getPairs();
+                tempList = newTrack.getMasterList();
 
                 db.insertSessionData(tempList);
                 db.insertTotalData(tempList);
@@ -99,10 +107,10 @@ public class ApplicationGUI implements ActionListener {
                     panel.add(new JLabel(t.toString()));
                 }
 
-                totalTime = track.totalTime();
+                double totalTime = newTrack.getTotalTimeRunSession();
 
-                JLabel j = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
-                window.add(j, BorderLayout.WEST);
+                totalTimeLabel = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
+                window.add(totalTimeLabel, BorderLayout.WEST);
                 topBar.remove(on);
                 topBar.add(off);
                 window.repaint();
@@ -113,6 +121,10 @@ public class ApplicationGUI implements ActionListener {
             } catch (TimerIncompleteException e1) {
                 e1.printStackTrace();
             }
+        }
+        if (e.getSource() == debugButton) {
+            Debug debug = new Debug();
+            debug.repaint();
         }
     }
 
