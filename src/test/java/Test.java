@@ -74,7 +74,7 @@ public class Test {
     public void timePairToStringTest() {
         TimePair tp = new TimePair();
         String name = "Test";
-        double time = 1000.00;
+        double time = 1.0;
         tp.setName(name);
         tp.setTime(time);
         assertEquals(tp.toString(), "Test " + 1.0 + " Seconds");

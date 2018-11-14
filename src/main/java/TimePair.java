@@ -29,7 +29,5 @@ public class TimePair {
         return this.time;
     }
 
-    public String toString() {
-        return (this.getName() + " " + this.getTime() / 1000 + " Seconds");
-    }
+    public String toString() { return (this.getName() + " " + this.getTime() + " Seconds"); }
 }

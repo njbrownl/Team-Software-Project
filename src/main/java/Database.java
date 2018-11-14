@@ -1,7 +1,108 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("Duplicates")
 public class Database {
+
+    TimePair mostTimeSession() {
+        TimePair tp = new TimePair();
+        String data = "SELECT title, time FROM sessionData WHERE time =(SELECT max(time) FROM sessionData);";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("title");
+                tp.setName(title);
+                double time = rs.getDouble("time");
+                tp.setTime(time);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tp;
+    }
+
+    TimePair mostTimeTotal() {
+        TimePair tp = new TimePair();
+        String data = "SELECT title, totalTime FROM totalData WHERE totalTime =(SELECT max(totalTime) FROM totalData);";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("title");
+                tp.setName(title);
+                double time = rs.getDouble("totalTime");
+                tp.setTime(time);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tp;
+    }
+
+    double sessionAvg() {
+        double avg = 0.0;
+        String data = "SELECT AVG(time) FROM sessionData;";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                avg = rs.getDouble("avg(time)");
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avg;
+    }
+
+    double totalAvg() {
+        double avg = 0.0;
+        String data = "SELECT AVG(totalTime) FROM totalData;";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                avg = rs.getDouble("avg(totalTime)");
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avg;
+    }
+
+    ArrayList<TimePair> selectSessionData(ArrayList<TimePair> timePairs) {
+        String data = "SELECT title, time FROM sessionData;";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                TimePair tp = new TimePair();
+                String title = rs.getString("title");
+                tp.setName(title);
+                double time = rs.getDouble("time");
+                tp.setTime(time);
+                timePairs.add(tp);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return timePairs;
+    }
 
     void insertSessionData(ArrayList<TimePair> timePairs) {
 
@@ -34,6 +135,28 @@ public class Database {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
+    }
+
+    ArrayList<TimePair> selectTotalData(ArrayList<TimePair> timePairs) {
+        String data = "SELECT title, totalTime FROM totalData;";
+        try {
+            Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                TimePair tp = new TimePair();
+                String title = rs.getString("title");
+                tp.setName(title);
+                double time = rs.getDouble("totalTime");
+                tp.setTime(time);
+                timePairs.add(tp);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return timePairs;
     }
 
     void insertTotalData(ArrayList<TimePair> timePairs) {
