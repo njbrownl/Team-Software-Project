@@ -87,8 +87,8 @@ public class Test {
         sys.startButton.doClick();
         Thread.sleep(2000);
         sys.stopButton.doClick();
-        //assertEquals(2.0, sys.totalTime);
-        assertEquals(2000, sys.tempList.get(0).getTime());
+        assertEquals(2.0, sys.totalTime, .3);
+        assertEquals(2000, sys.tempList.get(0).getTime(), 50);
     }
 
     @org.junit.Test

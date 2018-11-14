@@ -63,6 +63,7 @@ public class ApplicationGUI implements ActionListener {
     private MultiTracking newTrack = new MultiTracking();
     private JLabel totalTimeLabel;
 
+    double totalTime;
     ArrayList<TimePair> tempList;
 
     public void actionPerformed(ActionEvent e) {
@@ -107,7 +108,7 @@ public class ApplicationGUI implements ActionListener {
                     panel.add(new JLabel(t.toString()));
                 }
 
-                double totalTime = newTrack.getTotalTimeRunSession();
+                totalTime = newTrack.getTotalTimeRunSession();
 
                 totalTimeLabel = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
                 window.add(totalTimeLabel, BorderLayout.WEST);
