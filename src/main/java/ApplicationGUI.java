@@ -108,8 +108,10 @@ public class ApplicationGUI implements ActionListener {
                 totalTime = newTrack.getTotalTimeRunSession();
 
                 //TODO Remove temporary chart test
-                SessionTimePieChart pieChart = new SessionTimePieChart();
-                window.add(pieChart.createPanel());
+                SessionTimePieChart sessionPieChart = new SessionTimePieChart();
+                window.add(sessionPieChart.createPanel());
+                TotalTimePieChart totalPieChart = new TotalTimePieChart();
+                window.add(totalPieChart.createPanel());
                 //End temporary chart test
 
                 totalTimeLabel = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");

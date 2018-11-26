@@ -99,7 +99,8 @@ public class Database {
     }
 
     //Select all data from total table
-    ArrayList<TimePair> selectTotalData(ArrayList<TimePair> timePairs) {
+    ArrayList<TimePair> selectTotalData() {
+        ArrayList<TimePair> timePairs = new ArrayList<TimePair>();
         String data = "SELECT title, totalTime FROM totalData;";
         try {
             Connection conn = this.connect();

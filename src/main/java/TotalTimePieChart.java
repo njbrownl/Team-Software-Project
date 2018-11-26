@@ -11,11 +11,11 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class SessionTimePieChart {
+public class TotalTimePieChart {
 
     private static JFreeChart createChart(PieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(
-                "Session Time Pie Chart",
+                "Total Time Pie Chart",
                 dataset,
                 true,
                 true,
@@ -27,8 +27,8 @@ public class SessionTimePieChart {
     private PieDataset createDataset() {
         DefaultPieDataset dataset = new DefaultPieDataset();
         Database database = new Database();
-        ArrayList<TimePair> sessionData = database.selectSessionData();
-        for (TimePair d : sessionData) {
+        ArrayList<TimePair> totalData = database.selectTotalData();
+        for (TimePair d : totalData) {
             dataset.setValue(d.getName(), new Double(d.getTime()));
         }
         return dataset;
