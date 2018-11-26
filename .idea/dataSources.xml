@@ -19,5 +19,14 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="tracking [3]" uuid="005281a5-4965-4a93-a406-7f88ecc071c3">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\dante\Documents\Michigan Tech Courses\Fall 2018\Team Software Project\Project\src\main\sqlite\tracking.db</jdbc-url>
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>
