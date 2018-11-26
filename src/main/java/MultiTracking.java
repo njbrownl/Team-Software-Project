@@ -41,7 +41,7 @@ class MultiTracking {
     }
 
     //Main detection driver, detects all changes in windows that are visible
-    private void detect() throws TimerAlreadyStartedException, TimerNotStartedException, TimerIncompleteException {
+    private void detect() throws TimerNotStartedException, TimerIncompleteException {
 
         getOriginalWindows();
 
@@ -64,7 +64,6 @@ class MultiTracking {
             for (WindowType windowType : originalWindows) {
                 //Case where the window is no longer on the screen
                 if (!newNames.contains(windowType.getTitle())) {
-                    //System.out.println("WINDOW NO LONGER ON SCREEN");
                     stopTimer(windowType);
                     addPair(windowType);
                     toBeRemoved.add(windowType);
@@ -83,8 +82,7 @@ class MultiTracking {
             //Case where the window is a new window
             for (WindowType windowType : currentWindows) {
                 if (!originalNames.contains(windowType.getTitle())) {
-                    startTimer(windowType);
-                    System.out.println(windowType.getTimer().isStarted());
+                    //startTimer(windowType);
                     originalWindows.add(windowType);
                 }
             }
@@ -128,7 +126,7 @@ class MultiTracking {
     //Stops current session timer
     private void stopTotalTimeRun() throws TimerNotStartedException {
         time.setEndTime();
-        time.setTimeRun(300);
+        time.setTimeRun(500);
     }
 
     //Responsible for adding Title/Time pairs and checking to see if the Title is already in the list
