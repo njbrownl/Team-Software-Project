@@ -40,7 +40,8 @@ public class Database {
     }
 
     //Select all data from the session table
-    ArrayList<TimePair> selectSessionData(ArrayList<TimePair> timePairs) {
+    ArrayList<TimePair> selectSessionData() {
+        ArrayList<TimePair> timePairs = new ArrayList<TimePair>();
         String data = "SELECT title, time FROM sessionData;";
         try {
             Connection conn = this.connect();

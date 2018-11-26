@@ -87,7 +87,7 @@ public class Test {
         sys.startButton.doClick();
         Thread.sleep(2000);
         sys.stopButton.doClick();
-        assertEquals(2.0, sys.totalTime, .3);
+        assertEquals(2.0, sys.totalTime, .8); //TODO Find a more general solution for the delta
     }
 
     @org.junit.Test

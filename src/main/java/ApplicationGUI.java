@@ -1,12 +1,9 @@
 import Throwables.*;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class ApplicationGUI implements ActionListener {
@@ -109,6 +106,11 @@ public class ApplicationGUI implements ActionListener {
                 }
 
                 totalTime = newTrack.getTotalTimeRunSession();
+
+                //TODO Remove temporary chart test
+                SessionTimePieChart pieChart = new SessionTimePieChart();
+                window.add(pieChart.createPanel());
+                //End temporary chart test
 
                 totalTimeLabel = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
                 window.add(totalTimeLabel, BorderLayout.WEST);
