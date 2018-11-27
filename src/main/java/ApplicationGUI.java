@@ -13,9 +13,12 @@ public class ApplicationGUI implements ActionListener {
 
     JButton startButton = new JButton("Start Tracking");
     JButton stopButton = new JButton("Stop Tracking");
-    private JButton debugButton = new JButton("Debug");
+    //private JButton debugButton = new JButton("Debug");
 
-    private JPanel panel = new JPanel();
+    JButton sessionTimeCButton = new JButton("Session Time Chart");
+    JButton totalTimeCButton = new JButton("Total Time Chart");
+
+  //  private JPanel panel = new JPanel();
 
     private JLabel on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
     private JLabel off = new JLabel("<html><h1><font color='red'>OFF<h1></font></html>");
@@ -31,34 +34,34 @@ public class ApplicationGUI implements ActionListener {
         topBar.add(title);
         topBar.add(off);
 
-        window.setSize(1000, 800);
         panelMain.setLayout(new BorderLayout());
         window.add(panelMain);
-
         window.add(topBar, BorderLayout.NORTH);
 
         panelButtons.add(startButton);
         panelButtons.add(stopButton);
-        panelButtons.add(debugButton);
-
-        //Scrollbar window when stopped
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(panel);
-        window.add(scrollPane, BorderLayout.CENTER);
+        //panelButtons.add(debugButton);
+        panelButtons.add(sessionTimeCButton);
+        panelButtons.add(totalTimeCButton);
 
         window.add(panelButtons, BorderLayout.SOUTH);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         startButton.addActionListener(this);
         stopButton.addActionListener(this);
-        debugButton.addActionListener(this);
+        sessionTimeCButton.addActionListener(this);
+        totalTimeCButton.addActionListener(this);
 
+       // debugButton.addActionListener(this);
+
+        window.pack();
         window.setVisible(true);
+
 
     }
 
     private MultiTracking newTrack = new MultiTracking();
-    private JLabel totalTimeLabel;
+  //  private JLabel totalTimeLabel;
 
     double totalTime;
     ArrayList<TimePair> tempList;
@@ -84,9 +87,9 @@ public class ApplicationGUI implements ActionListener {
             topBar.remove(off);
             on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
             topBar.add(on);
-            if (totalTimeLabel != null && !totalTimeLabel.getText().equals("Total Time: ")) {
-                totalTimeLabel.setText("Total Time: ");
-            }
+//            if (totalTimeLabel != null && !totalTimeLabel.getText().equals("Total Time: ")) {
+//                totalTimeLabel.setText("Total Time: ");
+//            }
 
             window.repaint();
             window.setVisible(true);
@@ -101,21 +104,6 @@ public class ApplicationGUI implements ActionListener {
                 db.insertSessionData(tempList);
                 db.insertTotalData(tempList);
 
-                for (TimePair t: tempList) {
-                    panel.add(new JLabel(t.toString()));
-                }
-
-                totalTime = newTrack.getTotalTimeRunSession();
-
-                //TODO Remove temporary chart test
-                SessionTimePieChart sessionPieChart = new SessionTimePieChart();
-                window.add(sessionPieChart.createPanel());
-                TotalTimePieChart totalPieChart = new TotalTimePieChart();
-                window.add(totalPieChart.createPanel());
-                //End temporary chart test
-
-                totalTimeLabel = new JLabel("Total Time: " + String.valueOf(totalTime) + " seconds");
-                window.add(totalTimeLabel, BorderLayout.WEST);
                 topBar.remove(on);
                 topBar.add(off);
                 window.repaint();
@@ -127,9 +115,29 @@ public class ApplicationGUI implements ActionListener {
                 e1.printStackTrace();
             }
         }
-        if (e.getSource() == debugButton) {
-            Debug debug = new Debug();
-            debug.repaint();
+//        if (e.getSource() == debugButton) {
+//            Debug debug = new Debug();
+//            debug.repaint();
+//        }
+
+        if(e.getSource() == sessionTimeCButton){
+            JFrame chart = new JFrame("Session Time Chart");
+            chart.setLayout(new BorderLayout());
+            SessionTimePieChart sessionPieChart = new SessionTimePieChart();
+            chart.add(sessionPieChart.createPanel());
+            chart.setVisible(true);
+            chart.pack();
+            chart.toFront();
+        }
+
+        if(e.getSource() == totalTimeCButton) {
+            JFrame chart = new JFrame("Total Time Chart");
+            chart.setLayout(new BorderLayout());
+            TotalTimePieChart totalPieChart = new TotalTimePieChart();
+            chart.add(totalPieChart.createPanel());
+            chart.setVisible(true);
+            chart.pack();
+            chart.toFront();
         }
     }
 
