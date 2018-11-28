@@ -104,6 +104,8 @@ public class ApplicationGUI implements ActionListener {
                 db.insertSessionData(tempList);
                 db.insertTotalData(tempList);
 
+                totalTime = newTrack.getTotalTimeRunSession();
+
                 topBar.remove(on);
                 topBar.add(off);
                 window.repaint();
