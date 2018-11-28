@@ -7,21 +7,20 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class SessionTimePieChart {
+class SessionTimePieChart {
 
     private static JFreeChart createChart(PieDataset dataset) {
-        JFreeChart chart = ChartFactory.createPieChart(
+        return ChartFactory.createPieChart(
                 "Session Time Pie Chart",
                 dataset,
                 true,
                 true,
                 false
         );
-        return chart;
     }
 
     private PieDataset createDataset() {
@@ -35,10 +34,9 @@ public class SessionTimePieChart {
     }
 
     private static PieSectionLabelGenerator createLabelGen() {
-        PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator(
+        return new StandardPieSectionLabelGenerator(
                 "{0}: {1} ({2})", new DecimalFormat("0.00s"), new DecimalFormat("0.00%")
         );
-        return generator;
     }
 
     JPanel createPanel() {

@@ -11,17 +11,16 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class TotalTimePieChart {
+class TotalTimePieChart {
 
     private static JFreeChart createChart(PieDataset dataset) {
-        JFreeChart chart = ChartFactory.createPieChart(
+        return ChartFactory.createPieChart(
                 "Total Time Pie Chart",
                 dataset,
                 true,
                 true,
                 false
         );
-        return chart;
     }
 
     private PieDataset createDataset() {
@@ -35,10 +34,9 @@ public class TotalTimePieChart {
     }
 
     private static PieSectionLabelGenerator createLabelGen() {
-        PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator(
+        return new StandardPieSectionLabelGenerator(
                 "{0}: {1} ({2})", new DecimalFormat("0.00s"), new DecimalFormat("0.00%")
         );
-        return generator;
     }
 
     JPanel createPanel() {
