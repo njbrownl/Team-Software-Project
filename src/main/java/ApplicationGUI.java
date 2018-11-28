@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ApplicationGUI implements ActionListener {
@@ -13,12 +14,10 @@ public class ApplicationGUI implements ActionListener {
 
     JButton startButton = new JButton("Start Tracking");
     JButton stopButton = new JButton("Stop Tracking");
-    //private JButton debugButton = new JButton("Debug");
 
     JButton sessionTimeCButton = new JButton("Session Time Chart");
     JButton totalTimeCButton = new JButton("Total Time Chart");
-
-  //  private JPanel panel = new JPanel();
+    JButton metricsButton = new JButton("Numeric Metrics");
 
     private JLabel on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
     private JLabel off = new JLabel("<html><h1><font color='red'>OFF<h1></font></html>");
@@ -40,9 +39,9 @@ public class ApplicationGUI implements ActionListener {
 
         panelButtons.add(startButton);
         panelButtons.add(stopButton);
-        //panelButtons.add(debugButton);
         panelButtons.add(sessionTimeCButton);
         panelButtons.add(totalTimeCButton);
+        panelButtons.add(metricsButton);
 
         window.add(panelButtons, BorderLayout.SOUTH);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,17 +50,13 @@ public class ApplicationGUI implements ActionListener {
         stopButton.addActionListener(this);
         sessionTimeCButton.addActionListener(this);
         totalTimeCButton.addActionListener(this);
-
-       // debugButton.addActionListener(this);
+        metricsButton.addActionListener(this);
 
         window.pack();
         window.setVisible(true);
-
-
     }
 
     private MultiTracking newTrack = new MultiTracking();
-  //  private JLabel totalTimeLabel;
 
     double totalTime;
     ArrayList<TimePair> tempList;
@@ -87,9 +82,6 @@ public class ApplicationGUI implements ActionListener {
             topBar.remove(off);
             on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
             topBar.add(on);
-//            if (totalTimeLabel != null && !totalTimeLabel.getText().equals("Total Time: ")) {
-//                totalTimeLabel.setText("Total Time: ");
-//            }
 
             window.repaint();
             window.setVisible(true);
@@ -117,10 +109,6 @@ public class ApplicationGUI implements ActionListener {
                 e1.printStackTrace();
             }
         }
-//        if (e.getSource() == debugButton) {
-//            Debug debug = new Debug();
-//            debug.repaint();
-//        }
 
         if(e.getSource() == sessionTimeCButton){
             JFrame chart = new JFrame("Session Time Chart");
@@ -141,11 +129,38 @@ public class ApplicationGUI implements ActionListener {
             chart.pack();
             chart.toFront();
         }
+
+        if(e.getSource() == metricsButton) {
+            JFrame metrics = new JFrame("Numeric Metrics");
+            metrics.setLayout(new GridLayout(5, 1));
+
+            JPanel top = new JPanel();
+            JLabel title = new JLabel("<html><h1>Numeric Metrics</h1></html>");
+            top.add(title);
+
+            Database db = new Database();
+
+            JLabel mostViewedSession = new JLabel("Most Viewed Application (Session): " + db.mostTimeSession().getName()+ " " + String.format("%.3f", db.mostTimeSession().getTime()) + " seconds");
+            JLabel mostViewedTotal = new JLabel("Most Viewed Application (Total): " + db.mostTimeTotal().getName()+ " " + String.format("%.3f", db.mostTimeTotal().getTime()) + " seconds");
+
+            JLabel sessionAvg = new JLabel("Average Application View Time (Session): " + String.format("%.3f", db.sessionAvg()) + " seconds");
+            JLabel totalAvg = new JLabel("Average Application View Time (Total): " + String.format("%.3f", db.totalAvg()) + " seconds");
+
+            metrics.add(top);
+
+            metrics.add(mostViewedSession);
+            metrics.add(sessionAvg);
+            metrics.add(mostViewedTotal);
+            metrics.add(totalAvg);
+
+            metrics.setVisible(true);
+            metrics.pack();
+            metrics.toFront();
+        }
     }
 
     public static void main(String[] args){
         ApplicationGUI obj = new ApplicationGUI();
-
         obj.init();
     }
 }
