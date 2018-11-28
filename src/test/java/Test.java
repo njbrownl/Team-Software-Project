@@ -2,6 +2,7 @@ import Throwables.TimerAlreadyStartedException;
 import Throwables.TimerIncompleteException;
 import Throwables.TimerNotStartedException;
 import java.util.ArrayList;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -94,4 +95,72 @@ public class Test {
     public void testDebug() {
     }
 
+    @org.junit.Test
+    public void insertSessionDataTest() {
+        ArrayList<TimePair> tp = new ArrayList<TimePair>();
+        TimePair timepair = new TimePair();
+        double actual = 0.0;
+        timepair.setName("Test.test");
+        timepair.setTime(2.50);
+        tp.add(timepair);
+
+        Database db = new Database();
+        db.insertSessionData(tp);
+        String data = "SELECT time FROM sessionData WHERE title = 'Test.test';";
+        try {
+            Connection conn = db.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            actual = rs.getDouble("time");
+            assertEquals(2.50, actual * 1000);
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @org.junit.Test
+    public void selectSessionDataTest() {
+        ArrayList<TimePair> tp = new ArrayList<TimePair>();
+        TimePair timepair = new TimePair();
+        TimePair timepair2 = new TimePair();
+        timepair.setName("Test.test");
+        timepair.setTime(2.50);
+        tp.add(timepair);
+
+        Database db = new Database();
+        db.clearSessionData();
+        db.insertSessionData(tp);
+        timepair2.setName(db.selectSessionData().toString());
+        assertEquals("[Test.test 0.0025 Seconds]", timepair2.getName());
+    }
+
+    @org.junit.Test
+    public void clearSessionData() {
+        ArrayList<TimePair> tp = new ArrayList<TimePair>();
+        TimePair timepair = new TimePair();
+        timepair.setName("Test.test");
+        timepair.setTime(2.50);
+        tp.add(timepair);
+        double actualTime = 0.0;
+
+        Database db = new Database();
+        db.insertSessionData(tp);
+        db.clearSessionData();
+        String data = "SELECT time FROM sessionData WHERE title = 'Test.test';";
+        try {
+            Connection conn = db.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                actualTime = rs.getDouble("time");
+                assertEquals("", actualTime);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

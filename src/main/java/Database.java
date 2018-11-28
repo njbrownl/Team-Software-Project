@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Database {
 
     //Connect to database
-    private Connection connect(){
+    public Connection connect(){
         Connection conn = null;
         String url = "jdbc:sqlite:src/main/sqlite/tracking.db";
         try {
