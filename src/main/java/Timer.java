@@ -65,6 +65,10 @@ class Timer {
         }
     }
 
+    void clearTimeRun() {
+        this.timeRun = Double.MIN_VALUE;
+    }
+
     void setTimeRun(double d) {
         this.timeRun = timeRun + d;
     }

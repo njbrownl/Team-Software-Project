@@ -4,7 +4,7 @@ import java.util.ArrayList;
 class MultiTracking {
 
     private Timer time = new Timer();
-    private Boolean detection = null;
+    private Boolean detection = false;
 
     private ArrayList<WindowType> originalWindows = new ArrayList<WindowType>();
     private ArrayList<WindowType> currentWindows = new ArrayList<WindowType>();
@@ -100,22 +100,16 @@ class MultiTracking {
     }
 
     //Stops all timers in the passed ArrayList. ONLY CALLED WHEN PROGRAM STOPS
-    private void stopAllTimers(ArrayList<WindowType> windows) throws TimerNotStartedException, TimerIncompleteException {
+    private void stopAllTimers(ArrayList<WindowType> windows) throws TimerNotStartedException {
         for (WindowType windowType : windows) {
             stopTimer(windowType);
         }
     }
 
     //Method to stop a single window timer
-    private void stopTimer(WindowType window) throws TimerNotStartedException, TimerIncompleteException {
+    private void stopTimer(WindowType window) throws TimerNotStartedException {
         window.getTimer().setEndTime();
-        window.getTimer().setTimeRun(475);
-        System.out.println(window.getTitle() + " " + window.getTimer().getTimeRun());
-    }
-
-    //Method to start a single window timer
-    private void startTimer(WindowType window) throws TimerAlreadyStartedException {
-        window.getTimer().setStartTime();
+        window.getTimer().setTimeRun(490);
     }
 
     //Starts current session
@@ -126,7 +120,7 @@ class MultiTracking {
     //Stops current session timer
     private void stopTotalTimeRun() throws TimerNotStartedException {
         time.setEndTime();
-        time.setTimeRun(500);
+        time.setTimeRun(350);
     }
 
     //Responsible for adding Title/Time pairs and checking to see if the Title is already in the list
@@ -162,17 +156,18 @@ class MultiTracking {
     }
 
     //Helper method to return the list of pairs to other methods
-    ArrayList<TimePair> getMasterList() {
+    ArrayList<TimePair> getMasterList() throws TimerIncompleteException {
+        for (TimePair timePair : masterList) {
+            if (timePair.getTime() > time.getTimeRun()) {
+                timePair.setTime(time.getTimeRun());
+            }
+        }
         return masterList;
     }
 
     //Helper method to return the status of detection
-    boolean getDetection() throws NullDetectionException {
-        if (detection == null) {
-            throw new NullDetectionException("Detection has not been run yet");
-        }else {
-            return detection;
-        }
+    boolean getDetection() {
+        return detection;
     }
 
 }

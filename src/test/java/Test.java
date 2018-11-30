@@ -85,10 +85,12 @@ public class Test {
     public void testGUI() throws InterruptedException {
         ApplicationGUI sys = new ApplicationGUI();
         sys.init();
+        Thread.sleep(100);
         sys.startButton.doClick();
         Thread.sleep(2000);
         sys.stopButton.doClick();
-        assertEquals(2.0, sys.totalTime, .8); //TODO Find a more general solution for the delta
+        assertEquals(2.0, sys.totalTime, .3);
+        assertEquals(2000, sys.tempList.get(0).getTime(), 200);
     }
 
     @org.junit.Test

@@ -15,9 +15,9 @@ public class ApplicationGUI implements ActionListener {
     JButton startButton = new JButton("Start Tracking");
     JButton stopButton = new JButton("Stop Tracking");
 
-    JButton sessionTimeCButton = new JButton("Session Time Chart");
-    JButton totalTimeCButton = new JButton("Total Time Chart");
-    JButton metricsButton = new JButton("Numeric Metrics");
+    private JButton sessionTimeCButton = new JButton("Session Time Chart");
+    private JButton totalTimeCButton = new JButton("Total Time Chart");
+    private JButton metricsButton = new JButton("Numeric Metrics");
 
     private JLabel on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
     private JLabel off = new JLabel("<html><h1><font color='red'>OFF<h1></font></html>");
@@ -63,6 +63,7 @@ public class ApplicationGUI implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
+            topBar.add(on);
             new Thread() {
                 public void run() {
                     try {
@@ -79,13 +80,20 @@ public class ApplicationGUI implements ActionListener {
                     }
                 }
             }.start();
+
+            Component[] list = topBar.getComponents();
             topBar.remove(off);
-            on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
-            topBar.add(on);
+
+            if (list.length == 1) {
+                on = new JLabel("<html><h1><font color='green'>ON<h1></font></html>");
+                topBar.add(on);
+            }
+        }
+
 
             window.repaint();
             window.setVisible(true);
-        }
+
         if(e.getSource() == stopButton){
             try {
                 newTrack.stopDetection();
@@ -100,6 +108,7 @@ public class ApplicationGUI implements ActionListener {
 
                 topBar.remove(on);
                 topBar.add(off);
+
                 window.repaint();
                 window.setVisible(true);
 
