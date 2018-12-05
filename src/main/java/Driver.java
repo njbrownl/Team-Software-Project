@@ -30,11 +30,9 @@ class Driver {
         User32.INSTANCE.EnumWindows(new WinUser.WNDENUMPROC() {
             public boolean callback(HWND hwnd, Pointer pointer) {
 
+                RECT rect = new RECT();
                 WINDOWINFO info = new WINDOWINFO();
                 User32.INSTANCE.GetWindowInfo(hwnd, info);
-
-                RECT rect = new RECT();
-
                 User32.INSTANCE.GetWindowRect(hwnd, rect);
 
                 if (User32.INSTANCE.IsWindowVisible(hwnd) && rect.left > -32000) {
@@ -63,7 +61,6 @@ class Driver {
                     if (hyphenCount >= 2) {
                         title = title.substring(hyphenLocations.get(hyphenLocations.size() - 2) + 1);
                     }
-
 
                     if (!title.equals("") && add && !(titlesList.contains(title))) {
                         WindowType temp = new WindowType(hwnd, title, new Timer(), rect);

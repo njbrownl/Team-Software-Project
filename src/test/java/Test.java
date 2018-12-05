@@ -87,14 +87,10 @@ public class Test {
         sys.init();
         Thread.sleep(100);
         sys.startButton.doClick();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         sys.stopButton.doClick();
-        assertEquals(2.0, sys.totalTime, .75);
-        assertEquals(2000, sys.tempList.get(0).getTime(), 750);
-    }
-
-    @org.junit.Test
-    public void testDebug() {
+        assertEquals(1.0, sys.totalTime, .75);
+        assertEquals(1000, sys.tempList.get(0).getTime(), 750);
     }
 
     @org.junit.Test

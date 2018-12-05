@@ -52,6 +52,8 @@ public class ApplicationGUI implements ActionListener {
         totalTimeCButton.addActionListener(this);
         metricsButton.addActionListener(this);
 
+        stopButton.setEnabled(false);
+
         window.pack();
         window.setVisible(true);
     }
@@ -64,6 +66,8 @@ public class ApplicationGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
             topBar.add(on);
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
             new Thread() {
                 public void run() {
                     try {
@@ -97,6 +101,8 @@ public class ApplicationGUI implements ActionListener {
         if(e.getSource() == stopButton){
             try {
                 newTrack.stopDetection();
+                startButton.setEnabled(true);
+                stopButton.setEnabled(false);
 
                 Database db = new Database();
                 tempList = newTrack.getMasterList();
@@ -108,7 +114,6 @@ public class ApplicationGUI implements ActionListener {
 
                 topBar.remove(on);
                 topBar.add(off);
-
                 window.repaint();
                 window.setVisible(true);
 
