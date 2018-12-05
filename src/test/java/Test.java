@@ -161,4 +161,33 @@ public class Test {
             e.printStackTrace();
         }
     }
+
+    @org.junit.Test
+    public void insertTotalDataTest() {
+        ArrayList<TimePair> tp = new ArrayList<TimePair>();
+        TimePair timepair = new TimePair();
+        double actual = 0.0;
+        timepair.setName("Test.test");
+        timepair.setTime(2.50);
+        tp.add(timepair);
+
+        Database db = new Database();
+        db.insertTotalData(tp);
+        String data = "SELECT totalTime FROM totalData WHERE title = 'Test.test';";
+        String clear = "DELETE FROM totalData WHERE title = 'Test.test';";
+        try {
+            Connection conn = db.connect();
+            PreparedStatement pstmt = conn.prepareStatement(data);
+            PreparedStatement pstmtClear = conn.prepareStatement(clear);
+            ResultSet rs = pstmt.executeQuery();
+            actual = rs.getDouble("totalTime");
+            assertEquals(2.50, actual * 1000);
+            pstmtClear.executeUpdate();
+            rs.close();
+            pstmt.close();
+            pstmtClear.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
